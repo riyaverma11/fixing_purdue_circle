@@ -72,14 +72,17 @@ const renderText = txt =>
 					
 				</div>
 				
+				{/*}
 				<div>
 					<span className="postTopic">{"#" + (post.topic)}</span>
 				</div>
-
-				<div></div> {/*NEEDED FOR SPACING THINGS LEAVE ALONE DONT TOUCH PLEASE */}
+				*/}
 
 				<div className="postBottom">
 					<div className="postBottomLeft">
+						<div>
+							<span className="postTopic">{"#" + (post.topic)}</span>
+						</div>
 						<div className="shareOption">
                     		<BookmarkAdd htmlColor="DarkGray" className="shareIcon" />
                         		<span className="shareOptionText">Save Post</span>
