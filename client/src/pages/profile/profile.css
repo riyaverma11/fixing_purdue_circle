@@ -1,0 +1,77 @@
+.profile {
+	display: flex;
+}
+
+.profileRight {
+	flex: 9;
+}
+
+.profileCover {
+	height: 320px;
+	position: relative;
+}
+
+.profileCoverImg {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
+}
+
+.profileUserImg {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	top: 150px;
+	border: 3px solid white;
+}
+
+.profileInfo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.profileInfoName {
+	font-size: 24px;
+	margin: 1rem;
+}
+
+.profileInfoDesc {
+	font-weight: 300;
+	margin: 0.5rem;
+}
+
+.profileRightBottom {
+	display: flex;
+}
+
+.editProfileBtn {
+	margin: 2rem;
+}
+
+.deleteProfileBtn{
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #CEB888;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+	margin: 2rem;
+}
+
+.spacer {
+	margin-top: 2rem;
+}
+
+.inputDesc {
+	font-size: 0.7em;
+	margin: 1rem;
+}
