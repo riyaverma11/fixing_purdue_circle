@@ -7,6 +7,11 @@ import { useRef } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import React, { useState } from "react";
 import axios from "axios";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyles } from "../../components/globalStyle";
+import { lightTheme, darkTheme } from "../../components/Theme";
+import  {useDarkMode} from "../../components/useDarkMode";
+import Toggle from "../../components/Toggle"
 
 export default function Topbar() {
 	const { user } = useContext(AuthContext);
@@ -15,6 +20,10 @@ export default function Topbar() {
 	const { isFetching, dispatch } = useContext(AuthContext);
 	const history = useHistory();
 	const [validQ, setValidQ] = useState(0);
+
+	const [theme, themeToggler, mountedComponent] = useDarkMode();
+	const themeMode = theme === 'light' ? lightTheme : darkTheme
+	if(!mountedComponent) return <div/>
 
 	const handleClick = async e => {
 		e.preventDefault();
@@ -37,12 +46,20 @@ export default function Topbar() {
 	};
 
 	return (
+		<ThemeProvider theme={themeMode}>
+			<>
+		<GlobalStyles/>
 		<div className="topbarContainer">
 			<div className="topbarLeft">
 				<Link to="/home" style={{ textDecoration: "none" }}>
 					<span className="logo">PurdueCircle</span>
 				</Link>
 			</div>
+
+			<div className="switchTheme">
+			<Toggle theme={theme} toggleTheme={themeToggler} />	
+			</div>
+
 			<div className="topbarCenter">
 				<div className="searchbar">
 					<Search className="searchIcon" />
@@ -81,5 +98,7 @@ export default function Topbar() {
 				}
 			</div>
 		</div>
+		</>
+    </ThemeProvider>
 	);
 }

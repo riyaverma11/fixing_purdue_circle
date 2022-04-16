@@ -6,23 +6,11 @@ import Register from "./pages/register/Register";
 import Search from "./pages/search/search";
 import Logout from "./pages/logout/Logout";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import {ThemeProvider} from "styled-components";
-import { GlobalStyles } from "./components/globalStyle";
-import { lightTheme, darkTheme } from "./components/Theme";
-import  {useDarkMode} from "./components/useDarkMode";
-import Toggle from "./components/Toggle"
 
 function App() {
-	const [theme, themeToggler, mountedComponent] = useDarkMode();
-	const themeMode = theme === 'light' ? lightTheme : darkTheme
-	if(!mountedComponent) return <div/>
 
 	return (
-		<ThemeProvider theme={themeMode}>
-			<>
-		<GlobalStyles/>
-		<Toggle theme={theme} toggleTheme={themeToggler} />		<Router>
+		<Router>
 			<Switch>
 				<Route exact path="/">
 					<Register />
@@ -51,8 +39,7 @@ function App() {
 				</Route>
 			</Switch>
 		</Router>
-		</>
-    </ThemeProvider>
+
 	);
 }
 

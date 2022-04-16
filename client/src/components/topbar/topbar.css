@@ -24,6 +24,10 @@
   .topbarCenter {
     flex: 5;
   }
+
+  .switchTheme {
+    flex: 1.5;
+  }
   
   .searchbar {
     width: 100%;
@@ -37,6 +41,7 @@
   .searchIcon {
     font-size: 20px !important;
     margin-left: 10px;
+    color: black;
   }
   
   .searchInput {
