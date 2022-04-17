@@ -27,11 +27,26 @@ export default function Share() {
             finalUserID = "625667cd7a5eaf94ffe854ad";
         }
         
+        const topicUser = {
+            //TODO check to see if this is everything user needs
+            username: topic.current.value,
+            email: topic.current.value,
+            password: "darshanaisawesome!",
+        };
+
+        try {
+        await axios.post("/auth/register", topicUser);
+        } catch (err) {
+                console.log(err);
+        }
+
+
         const newPost = {
             userId: finalUserID,
             desc: desc.current.value,
             topic: topic.current.value
         };
+
 
         if (file) {
             const data = new FormData();
@@ -48,22 +63,6 @@ export default function Share() {
             await axios.post("/posts", newPost);
             window.location.reload();
         } catch (err) {}
-
-        /*
-        const topicUser = {
-            //TODO check to see if this is everything user needs
-            email: "topic",
-            username: topic.current.value,
-            password: "password",
-            age: 19
-        };
-
-        try {
-            console.log(topicUser);
-            const res = await axios.post("/auth/register", topicUser);
-        } catch (err) {
-                console.log(err);
-        }*/
 
 
     };

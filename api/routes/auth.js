@@ -4,15 +4,7 @@ const bcrypt = require("bcrypt"); // used to encrypt password
 
 // REGISTER
 router.post("/register", async (req,res)=>{ // had this as get before
-    /*
-    const user = new User({
-        username: "darshana",
-        email: "venkat82@purdue.edu",
-        password: "password123"
-    })
-
-    user.save();
-    res.send("ok");*/
+  
 
     try{
         // generating new password (encrypted)
@@ -27,9 +19,9 @@ router.post("/register", async (req,res)=>{ // had this as get before
         });
 
         // save user and respond
-        const existingUser = await User.findOne({username:req.body.username}); // username with that email already exists
-
-        if(!existingUser /*&& (!newUser.email.equals("topic"))*/){
+        const existingUser = await User.findOne({username:req.body.username}); // user with that username exists
+        
+        if(!existingUser){
             const existingUser2 = await User.findOne({email:req.body.email}); 
             if(!existingUser2){
                 const user = await newUser.save();
@@ -48,6 +40,38 @@ router.post("/register", async (req,res)=>{ // had this as get before
 })
 
 // end of register
+
+// insert topic
+/*
+router.post("/topic", async (req,res)=>{ // had this as get before
+  
+    try{
+        // create new user
+        const topicUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+        });
+
+        // save user and respond
+        const existingTopic = await User.findOne({username:req.body.username}); // topic already exists
+
+        if(!existingTopic){
+            const user = await topicUser.save();
+            return res.status(200).json(user); // send success (200)
+           
+        }else{
+            return res.status(404).json("topic already exisits"); // if user not found send error message
+        }
+        
+    }catch(err){
+        //console.log(err);
+        return res.status(500).json(err);
+    }
+   
+})
+
+*/
+
 
 //search
 router.post("/search", async (req,res)=>{
