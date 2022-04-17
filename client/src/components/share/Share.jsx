@@ -1,5 +1,5 @@
 import "./share.css";
-import { PermMedia, Label, Cancel, Topic } from "@mui/icons-material";
+import { PermMedia, Label, Cancel} from "@mui/icons-material";
 //import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -49,6 +49,7 @@ export default function Share() {
             window.location.reload();
         } catch (err) {}
 
+        /*
         const topicUser = {
             //TODO check to see if this is everything user needs
             email: "topic",
@@ -62,7 +63,7 @@ export default function Share() {
             const res = await axios.post("/auth/register", topicUser);
         } catch (err) {
                 console.log(err);
-        }
+        }*/
 
 
     };

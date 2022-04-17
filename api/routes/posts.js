@@ -100,7 +100,7 @@ router.get("/profile/:username", async (req, res) => {
    // }
     res.status(200).json(posts);
   } catch (err) {
-    res.status(500).json("is this the error? in posts.js");
+    res.status(500).json("error in posts.js (routes)");
   }
 });
 
