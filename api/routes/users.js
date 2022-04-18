@@ -95,7 +95,7 @@ router.put("/:id/follow", async (req, res) => {
 });
 
 //follow a topic -> added now
-router.put("/:username/follow", async (req, res) => {
+router.put("/:username/followTopic", async (req, res) => {
   
     try {
       
@@ -176,7 +176,7 @@ router.put("/:id/unfollow", async (req, res) => {
 
 
   //unfollow a topic
-router.put("/:username/unfollow", async (req, res) => {
+router.put("/:username/unfollowTopic", async (req, res) => {
    
     try {
    

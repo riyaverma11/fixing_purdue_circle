@@ -61,7 +61,7 @@ export default function Rightbar({ user }) {
         });
         dispatch({ type: "UNFOLLOW", payload: user._id });
       } else if (followed & (user.username===user.email)){ // unfollow a topic
-        await axios.put(`/users/${user.username}/unfollow`, {
+        await axios.put(`/users/${user.username}/unfollowTopic`, {
           userId: currentUser._id,
         });
         dispatch({ type: "UNFOLLOWTOPIC", payload: user._id });
@@ -71,13 +71,14 @@ export default function Rightbar({ user }) {
         });
         dispatch({ type: "FOLLOW", payload: user._id });
       }else { // follow a topic
-        await axios.put(`/users/${user.username}/follow`, {
+        await axios.put(`/users/${user.username}/followTopic`, {
           userId: currentUser._id,
         });
         dispatch({ type: "FOLLOWTOPIC", payload: user._id });
       }
       setFollowed(!followed);
       setTopicFollowed(!topicFollowed);
+      console.log(topicFollowed);
     } catch (err) {
     }
  
@@ -105,8 +106,8 @@ export default function Rightbar({ user }) {
       <>
         {user.username !== currentUser.username && (
           <button className="rightbarFollowButton" onClick={handleClick}>
-            {(followed || topicFollowed) ? "Unfollow" : "Follow"} {/* depending on state of followed display correct button */}
-            {(followed || topicFollowed)? <Remove /> : <Add />}
+            {(followed) ? "Unfollow" : "Follow"} {/* depending on state of followed display correct button */}
+            {(followed)? <Remove /> : <Add />}
           </button>
         )}
         <h4 className="rightbarTitle">Users followed:</h4>
