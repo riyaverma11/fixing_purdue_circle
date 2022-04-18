@@ -106,8 +106,8 @@ export default function Rightbar({ user }) {
       <>
         {user.username !== currentUser.username && (
           <button className="rightbarFollowButton" onClick={handleClick}>
-            {(followed) ? "Unfollow" : "Follow"} {/* depending on state of followed display correct button */}
-            {(followed)? <Remove /> : <Add />}
+            {(followed || topicFollowed) ? "Unfollow" : "Follow"} {/* depending on state of followed display correct button */}
+            {(followed || topicFollowed)? <Remove /> : <Add />}
           </button>
         )}
         <h4 className="rightbarTitle">Users followed:</h4>
