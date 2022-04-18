@@ -95,13 +95,13 @@ router.put("/:id/follow", async (req, res) => {
 });
 
 //follow a topic -> added now
-router.put("/:username/followTopic", async (req, res) => {
+router.put("/:id/followTopic", async (req, res) => {
   
     try {
       
       const currentUser = await User.findById(req.body.userId); // yourself
-      if (!currentUser.topicsFollowed.includes(req.params.username)) { // user must be someone you don't already follow
-        await currentUser.updateOne({ $push: { topicsFollowed: req.params.username } }); // update your following array
+      if (!currentUser.topicsFollowed.includes(req.params.id)) { // user must be someone you don't already follow
+        await currentUser.updateOne({ $push: { topicsFollowed: req.params.id } }); // update your following array
         return res.status(200).json("Topic has been followed!");
       } else {
         return res.status(403).json("You already follow this topic!");
@@ -114,6 +114,7 @@ router.put("/:username/followTopic", async (req, res) => {
 
 // get all of the user's friends
 router.get("/friends/:userId", async (req, res) => {
+
   try {
     const user = await User.findById(req.params.userId);
     const friends = await Promise.all(
@@ -136,9 +137,10 @@ router.get("/friends/:userId", async (req, res) => {
 router.get("/topicsFollowing/:userId", async (req, res) => { // get all topics user follows
   try {
     const user = await User.findById(req.params.userId); // current user
+    
     const topics = await Promise.all(
       user.topicsFollowed.map((topic) => {
-        return User.find({ username: topic });
+        return User.findById(topic);
       })
     );
     let topicList = [];
@@ -146,6 +148,7 @@ router.get("/topicsFollowing/:userId", async (req, res) => { // get all topics u
       const { _id, username, profilePicture } = topic1;
       topicList.push({ _id, username, profilePicture });
     });
+   
     res.status(200).json(topicList)
   } catch (err) {
     res.status(500).json(err);
@@ -176,13 +179,12 @@ router.put("/:id/unfollow", async (req, res) => {
 
 
   //unfollow a topic
-router.put("/:username/unfollowTopic", async (req, res) => {
+router.put("/:id/unfollowTopic", async (req, res) => {
    
     try {
-   
       const currentUser = await User.findById(req.body.userId); // yourself
-      if (!currentUser.topicsFollowed.includes(req.params.username)) {// user must be someone you follow
-        await currentUser.updateOne({ $pull: { topicsFollowed: req.params.username } }); // remove from your following array
+      if (currentUser.topicsFollowed.includes(req.params.id)) {// user must be someone you follow
+        await currentUser.updateOne({ $pull: { topicsFollowed: req.params.id } }); // remove from your following array
         return res.status(200).json("Topic has been unfollowed!");
       } else {
         return res.status(403).json("You dont follow this topic!");
