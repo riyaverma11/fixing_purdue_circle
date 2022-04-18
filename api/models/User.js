@@ -24,10 +24,17 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    
     followings: {
       type: Array,
       default: [],
     },
+
+    topicsFollowed: {
+      type: Array,
+      default: [],
+    },
+
     isAdmin: {
       type: Boolean,
       default: false,

@@ -94,6 +94,25 @@ router.put("/:id/follow", async (req, res) => {
   }
 });
 
+//follow a topic -> added now
+router.put("/:username/follow", async (req, res) => {
+  
+    try {
+      
+      const currentUser = await User.findById(req.body.userId); // yourself
+      if (!currentUser.topicsFollowed.includes(req.params.username)) { // user must be someone you don't already follow
+        await currentUser.updateOne({ $push: { topicsFollowed: req.params.username } }); // update your following array
+        return res.status(200).json("Topic has been followed!");
+      } else {
+        return res.status(403).json("You already follow this topic!");
+      }
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+ 
+});
+
+// get all of the user's friends
 router.get("/friends/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -112,6 +131,27 @@ router.get("/friends/:userId", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
+router.get("/topicsFollowing/:userId", async (req, res) => { // get all topics user follows
+  try {
+    const user = await User.findById(req.params.userId); // current user
+    const topics = await Promise.all(
+      user.topicsFollowed.map((topic) => {
+        return User.find({ username: topic });
+      })
+    );
+    let topicList = [];
+    topics.map((topic1) => {
+      const { _id, username, profilePicture } = topic1;
+      topicList.push({ _id, username, profilePicture });
+    });
+    res.status(200).json(topicList)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 //unfollow a user
 router.put("/:id/unfollow", async (req, res) => {
@@ -133,5 +173,24 @@ router.put("/:id/unfollow", async (req, res) => {
       return res.status(403).json("You can't unfollow yourself silly!");
     }
   });
+
+
+  //unfollow a topic
+router.put("/:username/unfollow", async (req, res) => {
+   
+    try {
+   
+      const currentUser = await User.findById(req.body.userId); // yourself
+      if (!currentUser.topicsFollowed.includes(req.params.username)) {// user must be someone you follow
+        await currentUser.updateOne({ $pull: { topicsFollowed: req.params.username } }); // remove from your following array
+        return res.status(200).json("Topic has been unfollowed!");
+      } else {
+        return res.status(403).json("You dont follow this topic!");
+      }
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  
+});
 
 module.exports = router;

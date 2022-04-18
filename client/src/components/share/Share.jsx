@@ -27,21 +27,21 @@ export default function Share() {
             finalUserID = "625667cd7a5eaf94ffe854ad";
         }
         
-        const topicUser = {
+        const topicUser = { // create a topic "user"
             //TODO check to see if this is everything user needs
             username: topic.current.value,
             email: topic.current.value,
             password: "darshanaisawesome!",
         };
 
-        try {
+        try { // add the topic to the database
         await axios.post("/auth/register", topicUser);
         } catch (err) {
                 console.log(err);
         }
 
 
-        const newPost = {
+        const newPost = { 
             userId: finalUserID,
             desc: desc.current.value,
             topic: topic.current.value
