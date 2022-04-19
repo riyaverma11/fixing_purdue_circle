@@ -81,7 +81,7 @@ export default function Share() {
                         }
                         alt=""
                     />
-                    <input
+                    <textarea
                         placeholder={"What's on your mind " + user.username + "?"}
                         className="shareInput"
                         ref={desc}
