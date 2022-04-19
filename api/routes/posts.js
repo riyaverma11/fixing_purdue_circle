@@ -6,8 +6,22 @@ const User = require("../models/User");
 
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
+  console.log(newPost);
+  const topicName = await User.find({username: req.body.topic});
+  console.log(String(topicName[0]._id))
+  const newPost1 = {
+    userId: req.body.userId,
+    topic: String(topicName[0]._id),
+    desc: req.body.desc,
+    img: req.body.img,
+    likes: req.body.likes
+  };
+
+  const newPost1Obj = new Post(newPost1)
+  console.log(newPost1Obj)
   try {
-    const savedPost = await newPost.save();
+    const savedPost = await newPost1Obj.save();
+
     res.status(200).json(savedPost);
   } catch (err) {
     res.status(500).json(err);
@@ -84,14 +98,20 @@ router.get("/timeline/:userId", async (req, res) => {
       })
     );
 
-    /*
+    //const topicUser = await User.findById("625df18ed060a389469af8c8");
+    //console.log(topicUser.username)
     const topicPosts = await Promise.all(
       currentUser.topicsFollowed.map((topicId) => {
-        //const topicUser = await User.findById(topicId);
-        return Post.find({topic: topicId });
+        // console.log(topicId)
+        // const topicUser = User.find({userId: topicId});
+        // console.log(topicUser.username)
+        // if(!friendPosts.includes(Post.find({ topic: topicId})) && !userPosts.includes(Post.find({ topic: topicId}))){
+        return Post.find({ topic: topicId})
+        // }
+        // return post;
       })
     );
-*/
+
 
     /*
     const topicPosts = await Promise.all(
@@ -104,8 +124,16 @@ router.get("/timeline/:userId", async (req, res) => {
        }
       }) 
     );*/
-   
-    res.status(200).json(userPosts.concat(...friendPosts));
+    // let obj = userPosts.concat(...friendPosts).concat(...topicPosts)
+    // const uniqueArray = obj.arr.filter((value, index) => {
+    //   const _value = JSON.stringify(value);
+    //   return index === obj.arr.findIndex(obj => {
+    //     return JSON.stringify(obj) === _value;
+    //   });
+    // });
+    // const finalarr = _.unionBy(userPosts.concat(...friendPosts), topicPosts, 'desc')
+    // console.log(finalarr)
+    res.status(200).json(userPosts.concat(...friendPosts).concat(...topicPosts));
   } catch (err) {
     res.status(500).json(err);
   }
@@ -118,7 +146,7 @@ router.get("/profile/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
     const posts = await Post.find({ userId: user._id });
-    const topicPosts = await Post.find({topic: user.email});
+    const topicPosts = await Post.find({topic: user._id});
     res.status(200).json(posts.concat(...topicPosts));
   } catch (err) {
     res.status(500).json("error in posts.js (routes)");
