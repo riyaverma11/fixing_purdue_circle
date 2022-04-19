@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
-  const [uniquePosts, setUniquePosts] = useState([])
+  const [uniquePosts, setUniquePosts] = useState([]);
   const { user } = useContext(AuthContext);
 
 
@@ -18,31 +18,38 @@ export default function Feed({ username }) {
       const res = username
         ? await axios.get("/posts/profile/" + username)
         : await axios.get("/posts/timeline/" + user._id);
-    /*
-      const res = 0;
-      if(!username){
-        res = await axios.get("/posts/profile/" + username);
-      }else{
-        res = await axios.get("/posts/timeline/" + user._id);
-      }*/
+
+      /*
+      console.log("length");
+      console.log(res.data.length);
+      console.log("pls dont be undefined");
+      console.log(res.data[1]);*/
+      
+      let uniquePosts = [];
+      for(let i = 0; i<res.data.length; i++){
+        let unique = true;
+        const post = res.data[i]; // post that we are checking if unique
+
+        
+        for(let j = 0; j<uniquePosts.length;j++){
+          if(uniquePosts[j]._id===res.data[i]._id){
+            unique = false;
+          }
+        }
+
+        if(unique){
+          uniquePosts.push(post);
+        }
+      
+      }
+
 
       setPosts(
-        res.data.sort((p1, p2) => {
+        uniquePosts.sort((p1, p2) => {
           return new Date(p2.createdAt) - new Date(p1.createdAt);
         })
       );
-      console.log(posts);
-
-      // let fetchedPostIds = []
-      // posts.forEach(post => {
-      //   console.log("ere")
-      //   if (!fetchedPostIds.includes(post._id)) {
-      //     console.log("went in if")
-      //     fetchedPostIds.push(post._id)
-      //     // uniquePosts.push(post)
-      //     setUniquePosts(oldArray => [...oldArray,post])
-      //   }
-      // })
+     
     };
     fetchPosts();
 

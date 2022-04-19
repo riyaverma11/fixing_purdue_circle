@@ -29,8 +29,7 @@ export default function Post({ post }) {
 	useEffect(()=> {
 		const fetchTopicName = async () => {
 			const res = await axios.get(`/users?userId=${post.topic}`);
-			console.log("fdsjhjfkjfds")
-			console.log(res.data.username)
+			//console.log(res.data.username)
 			setTopic(res.data.username);
 		};
 		fetchTopicName();

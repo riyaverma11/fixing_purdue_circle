@@ -103,41 +103,17 @@ router.get("/timeline/:userId", async (req, res) => {
       })
     );
 
-    //const topicUser = await User.findById("625df18ed060a389469af8c8");
-    //console.log(topicUser.username)
+
     const topicPosts = await Promise.all(
-      currentUser.topicsFollowed.map((topicId) => {
-        // console.log(topicId)
-        // const topicUser = User.find({userId: topicId});
-        // console.log(topicUser.username)
-        // if(!friendPosts.includes(Post.find({ topic: topicId})) && !userPosts.includes(Post.find({ topic: topicId}))){
-        return Post.find({ topic: topicId})
-        // }
-        // return post;
+        currentUser.topicsFollowed.map((topicId) => {
+
+          const post = Post.find({ topic: topicId});
+            return post;
+          
+       
       })
     );
 
-
-    /*
-    const topicPosts = await Promise.all(
-        currentUser.topicsFollowed.map((topicId) => {
-      
-        const topicUser = await User.findById(topicId); // topic's user
-         return null;
-        if(!friendPosts.includes(post) && !userPosts.includes(post)){
-          return post;
-       }
-      }) 
-    );*/
-    // let obj = userPosts.concat(...friendPosts).concat(...topicPosts)
-    // const uniqueArray = obj.arr.filter((value, index) => {
-    //   const _value = JSON.stringify(value);
-    //   return index === obj.arr.findIndex(obj => {
-    //     return JSON.stringify(obj) === _value;
-    //   });
-    // });
-    // const finalarr = _.unionBy(userPosts.concat(...friendPosts), topicPosts, 'desc')
-    // console.log(finalarr)
     res.status(200).json(userPosts.concat(...friendPosts).concat(...topicPosts));
   } catch (err) {
     res.status(500).json(err);
