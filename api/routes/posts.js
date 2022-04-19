@@ -8,7 +8,13 @@ router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
   console.log(newPost);
   const topicName = await User.find({username: req.body.topic});
-  console.log(String(topicName[0]._id))
+
+  
+  if(!req.body.topic){
+    topicName[0] = "";
+  }
+  
+  //console.log(String(topicName[0]._id));
   const newPost1 = {
     userId: req.body.userId,
     topic: String(topicName[0]._id),
@@ -21,7 +27,6 @@ router.post("/", async (req, res) => {
   console.log(newPost1Obj)
   try {
     const savedPost = await newPost1Obj.save();
-
     res.status(200).json(savedPost);
   } catch (err) {
     res.status(500).json(err);

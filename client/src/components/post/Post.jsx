@@ -91,9 +91,12 @@ const renderText = txt =>
 
 				<div className="postBottom">
 					<div className="postBottomLeft">
+
+					{(topicName) && 
 						<div>
 							<span className="postTopic">{"#" + (topicName)}</span>
 						</div>
+					}
 						<div className="shareOption">
                     		<BookmarkAdd htmlColor="DarkGray" className="shareIcon" />
                         		<span className="shareOptionText">Save Post</span>
