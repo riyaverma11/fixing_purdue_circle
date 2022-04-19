@@ -7,7 +7,10 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
+  const [uniquePosts, setUniquePosts] = useState([])
   const { user } = useContext(AuthContext);
+
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -15,7 +18,6 @@ export default function Feed({ username }) {
       const res = username
         ? await axios.get("/posts/profile/" + username)
         : await axios.get("/posts/timeline/" + user._id);
-
     /*
       const res = 0;
       if(!username){
@@ -29,8 +31,21 @@ export default function Feed({ username }) {
           return new Date(p2.createdAt) - new Date(p1.createdAt);
         })
       );
+      console.log(posts);
+
+      // let fetchedPostIds = []
+      // posts.forEach(post => {
+      //   console.log("ere")
+      //   if (!fetchedPostIds.includes(post._id)) {
+      //     console.log("went in if")
+      //     fetchedPostIds.push(post._id)
+      //     // uniquePosts.push(post)
+      //     setUniquePosts(oldArray => [...oldArray,post])
+      //   }
+      // })
     };
     fetchPosts();
+
   }, [username, user._id]);
 
   return (

@@ -37,7 +37,6 @@ export default function Rightbar({ user }) {
   console.log("is followed?");
   console.log( currentUser.topicsFollowed.includes(user._id));
 
-
   useEffect(() => { // this function gets all of the user's friends -> friend list will contain all those user follows
 
     const getFriends = async () => {
